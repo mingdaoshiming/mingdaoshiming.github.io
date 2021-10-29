@@ -1,0 +1,159 @@
+<!DOCTYPE HTML>
+<!--
+	Phantom by HTML5 UP
+	html5up.net | @ajlkn
+	Free for personal and commercial use under the CCA 3.0 license (html5up.net/license)
+-->
+<html>
+<head>
+	<title>Generic - Phantom by HTML5 UP</title>
+	<meta charset="utf-8" />
+	<meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no" />
+	<link rel="stylesheet" href="assets/css/main.css" />
+	<noscript><link rel="stylesheet" href="assets/css/noscript.css" /></noscript>
+</head>
+<body class="is-preload">
+<!-- Wrapper -->
+<div id="wrapper">
+
+	<!-- Header -->
+	<header id="header">
+		<div class="inner">
+
+			<!-- Logo -->
+			<a href="index.html" class="logo">
+				<span class="symbol"><img src="images/logo.svg" alt="" /></span><span class="title">chuchen</span>
+			</a>
+
+			<!-- Nav -->
+			<nav>
+				<ul>
+					<li><a href="#menu">菜单</a></li>
+				</ul>
+			</nav>
+
+		</div>
+	</header>
+
+	<!-- Menu -->
+	<nav id="menu">
+		<h2>菜单</h2>
+		<ul>
+			<li><a href="index.html">主页</a></li>
+			<!--							<li><a href="generic.html">Ipsum veroeros</a></li>-->
+			<!--							<li><a href="generic.html">Tempus etiam</a></li>-->
+			<!--							<li><a href="generic.html">Consequat dolor</a></li>-->
+			<!--							<li><a href="elements.html">Elements</a></li>-->
+		</ul>
+	</nav>
+
+	<!-- Main -->
+	<div id="main">
+		<div class="inner">
+			<h1>NavMeshComponent</h1>
+			<span class="image main"><img src="images/pic13.jpg" alt="" /></span>
+
+			<font size="4">
+			<!--							第一段-->
+			<p>
+				NavMesgComponent是unity官方基于NavMesh的扩展组件，主要是为了实现动态的NavMesh生成方法，内部的Api极其简单，使用起来也不复杂，但是Mesh'重新绘制或者
+				更新已有的Mesh数据时性能消耗比较巨大。
+				NavMeshComponent的git链接：https://github.com/Unity-Technologies/NavMeshComponents
+			</p>
+
+
+			<!--							第二段-->
+			<p>
+				测试使用10000个标准unityde Cube生成NevMesh【基于child生成】。1：不适用sharedMaterial的情况下十分卡顿，基本上是卡成PPT。2：使用sharedMaterial，这次流畅很多，
+				除了重新构建NavMesh的时候或者更新已有的NavMeshData，这时候帧率直接减半或者是减少三分之一。3：合并网格的情况下十分流畅，但是重新绘制NavMesh的时候帧率还是会明显的
+				减少。
+			</p>
+
+
+
+			<!--							第三段-->
+			<p>
+				NavMeshSurface：提供寻路功能的基本设置及静态烘培。<br>
+				NavMeshAgent：提供移动对象基本设置。<br>
+				NavMeshSurface和NavMeshAgent是通过“Agent Type”进行对应的，不同的移动对象需要烘培不同的NavMesh。<br>
+				NavMeshModifier：用于设置场景中的固定障碍物或特殊路径的。这个组件可以影响到其所在游戏对象的子对象。<br>
+				NavMeshLink：用于在没有路径的地方做连接，使移动对象能够通过，例如小的沟壑，爬楼等。<br>
+				NavMeshObstacle：用来设置场景中活动的障碍物。<br>
+			</p>
+
+			<!--							第四段-->
+			<p>
+				关于设计一种简单的NavMesh实体以及相应的移动管理器【只是一个想法，做过基本的代码实现，暂时没有什么大问题^_^】：<br>
+				1：NavMeshEntity：NavAgent实体，场景实体，例如monster，npc之类带有AI的物体。内置寻路开始，结束Action，在NavEntityManager中进行回调<br>
+				2：NavEntityManager:NavMeshEntity移动管理器【移动管理，不是实体管理器】。主要是进行NavMeshAgent的移动控制，以及开始结束执行回调【NavMesh系统貌似没有到达回调函数，A* Pro记得有】。
+					内部有添加，移除，停止寻路实体，更新等方法<br>
+				3：NavMeshEntityExtension：NavAgent实体扩展，主要由静态this扩展组成，方便NavAgent实体逻辑【实体逻辑不至于又臭又长】<br>
+				4：NavEntityManager：实体管理器，负责管理实体，基本上每个有些都有这个东西，最多是名字不一样而已<br>
+				
+			</p>
+			</font>
+
+
+			<h1>Code</h1>
+			<font size="4">
+			<pre>
+				navMeshSurface.BuildNavMesh();
+			</pre>
+			</font>
+		</div>
+	</div>
+
+	<!-- Footer -->
+	<footer id="footer">
+		<div class="inner">
+			<!--							<section>-->
+			<!--								<h2>Get in touch</h2>-->
+			<!--								<form method="post" action="#">-->
+			<!--									<div class="fields">-->
+			<!--										<div class="field half">-->
+			<!--											<input type="text" name="name" id="name" placeholder="Name" />-->
+			<!--										</div>-->
+			<!--										<div class="field half">-->
+			<!--											<input type="email" name="email" id="email" placeholder="Email" />-->
+			<!--										</div>-->
+			<!--										<div class="field">-->
+			<!--											<textarea name="message" id="message" placeholder="Message"></textarea>-->
+			<!--										</div>-->
+			<!--									</div>-->
+			<!--									<ul class="actions">-->
+			<!--										<li><input type="submit" value="Send" class="primary" /></li>-->
+			<!--									</ul>-->
+			<!--								</form>-->
+			<!--							</section>-->
+			<!--							<section>-->
+			<!--								<h2>Follow</h2>-->
+			<!--								<ul class="icons">-->
+			<!--									<li><a href="#" class="icon brands style2 fa-twitter"><span class="label">Twitter</span></a></li>-->
+			<!--									<li><a href="#" class="icon brands style2 fa-facebook-f"><span class="label">Facebook</span></a></li>-->
+			<!--									<li><a href="#" class="icon brands style2 fa-instagram"><span class="label">Instagram</span></a></li>-->
+			<!--									<li><a href="#" class="icon brands style2 fa-dribbble"><span class="label">Dribbble</span></a></li>-->
+			<!--									<li><a href="#" class="icon brands style2 fa-github"><span class="label">GitHub</span></a></li>-->
+			<!--									<li><a href="#" class="icon brands style2 fa-500px"><span class="label">500px</span></a></li>-->
+			<!--									<li><a href="#" class="icon solid style2 fa-phone"><span class="label">Phone</span></a></li>-->
+			<!--									<li><a href="#" class="icon solid style2 fa-envelope"><span class="label">Email</span></a></li>-->
+			<!--								</ul>-->
+			<!--							</section>-->
+			<ul class="copyright">
+				<li>&copy; Untitled. All rights reserved</li><li>
+				<li><<<<----chuchen---->>>></li><li>
+				<!--								<li>Design: <a href="http://html5up.net">HTML5 UP</a></li>-->
+			</ul>
+		</div>
+	</footer>
+
+</div>
+
+<!-- Scripts -->
+<script src="assets/js/jquery.min.js"></script>
+<script src="assets/js/browser.min.js"></script>
+<script src="assets/js/breakpoints.min.js"></script>
+<script src="assets/js/util.js"></script>
+<script src="assets/js/main.js"></script>
+
+</body>
+</html>

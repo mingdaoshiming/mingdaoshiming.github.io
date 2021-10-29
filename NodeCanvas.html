@@ -1,0 +1,164 @@
+<!DOCTYPE HTML>
+<!--
+	Phantom by HTML5 UP
+	html5up.net | @ajlkn
+	Free for personal and commercial use under the CCA 3.0 license (html5up.net/license)
+-->
+<html>
+	<head>
+		<title>Generic - Phantom by HTML5 UP</title>
+		<meta charset="utf-8" />
+		<meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no" />
+		<link rel="stylesheet" href="assets/css/main.css" />
+		<noscript><link rel="stylesheet" href="assets/css/noscript.css" /></noscript>
+	</head>
+	<body class="is-preload">
+		<!-- Wrapper -->
+			<div id="wrapper">
+
+				<!-- Header -->
+					<header id="header">
+						<div class="inner">
+
+							<!-- Logo -->
+								<a href="index.html" class="logo">
+									<span class="symbol"><img src="images/logo.svg" alt="" /></span><span class="title">chuchen</span>
+								</a>
+
+							<!-- Nav -->
+								<nav>
+									<ul>
+										<li><a href="#menu">菜单</a></li>
+									</ul>
+								</nav>
+
+						</div>
+					</header>
+
+				<!-- Menu -->
+				<nav id="menu">
+					<h2>菜单</h2>
+					<ul>
+						<li><a href="index.html">主页</a></li>
+						<!--							<li><a href="generic.html">Ipsum veroeros</a></li>-->
+						<!--							<li><a href="generic.html">Tempus etiam</a></li>-->
+						<!--							<li><a href="generic.html">Consequat dolor</a></li>-->
+						<!--							<li><a href="elements.html">Elements</a></li>-->
+					</ul>
+				</nav>
+
+				<!-- Main -->
+				<div id="main">
+					<div class="inner">
+						<h1>NodeCanvas</h1>
+						<span class="image main"><img src="images/pic13.jpg" alt="" /></span>
+
+						<font size="4">
+							<!--							第一段-->
+							<p>
+								为什么用NodeCanvas呢？一直是bechaviourTree,但是感觉现在它有点跟不上是时代了【更重要的是它有点丑.....】。
+								还看了一段时间GOAP，也能用，但是整理逻辑个问题，如果很多放到一起感觉并不是很好维护，而且我也不清楚会切换到那个执行节点
+								。毕竟数据是动态的，也不清楚那些先决条件可用，以及权重是不是合适。。。
+							</p>
+
+
+							<!--							第二段-->
+							<p>
+								此类插件很多，BehaviourTree， FlowCanvas， NodeCanvas......。正赶上前一段时间Bundle包出了，买了些插件。这个正好包括在其中。找时间看看这个东西，应该挺不错的^_^
+							</p>
+
+							<p>
+								BTTree<br>
+								<br>
+								状态：Resting,Success,Failure,Running,Error,Optional<br>
+								<br>
+								叶节点：Action,Condition<br>
+								<br>
+								复合节点：<br>
+								Sequencer:顺序节点，重做到右执行，子对象返回失败时节点失败，全部成功时返回成功<br>
+							</p>
+
+
+
+							<!--							第三段-->
+							<p>
+								<span class="image 001"><img src="images/NodeCanvas_001.png" alt="" /></span>
+								<span class="image 002"><img src="images/NodeCanvas_002.png" alt="" /></span>
+								<span class="image 003"><img src="images/NodeCanvas_003.png" alt="" /></span>
+								<span class="image 004"><img src="images/NodeCanvas_004.png" alt="" /></span>
+								这里是一个简单的graph:选择一个节点挂载BehaviourTreeOwner，同时会自动挂载对应的BlackBoard【可以理解为graph逻辑中使用的动态或这是静态的变量】
+								获取对应的blackboard数据方式为 【blackboard.GetVariable】, blackboard有两个地方可以添加，根目录或者是节点【两个位置的变量可以通过同一个API获取】 <br>
+								图二是三个Node，sequenceNode与写的两个BTNode<br>
+							</p>
+
+							<p>
+								NodeCanvas 添加自定义BlackBoard Variable：<br>
+								点击Add Variable ----> New ---->New Type ,然后在弹出面板中点击添加，搜索需要的脚本即可<br>
+								<span class="image 001"><img src="images/NodeCanvas_005.png" alt="" /></span>
+							</p>
+						</font>
+
+
+						<h1>Code</h1>
+						<font size="4">
+						<pre>
+							
+						</pre>
+						</font>
+					</div>
+				</div>
+
+				<!-- Footer -->
+					<footer id="footer">
+						<div class="inner">
+<!--							<section>-->
+<!--								<h2>Get in touch</h2>-->
+<!--								<form method="post" action="#">-->
+<!--									<div class="fields">-->
+<!--										<div class="field half">-->
+<!--											<input type="text" name="name" id="name" placeholder="Name" />-->
+<!--										</div>-->
+<!--										<div class="field half">-->
+<!--											<input type="email" name="email" id="email" placeholder="Email" />-->
+<!--										</div>-->
+<!--										<div class="field">-->
+<!--											<textarea name="message" id="message" placeholder="Message"></textarea>-->
+<!--										</div>-->
+<!--									</div>-->
+<!--									<ul class="actions">-->
+<!--										<li><input type="submit" value="Send" class="primary" /></li>-->
+<!--									</ul>-->
+<!--								</form>-->
+<!--							</section>-->
+<!--							<section>-->
+<!--								<h2>Follow</h2>-->
+<!--								<ul class="icons">-->
+<!--									<li><a href="#" class="icon brands style2 fa-twitter"><span class="label">Twitter</span></a></li>-->
+<!--									<li><a href="#" class="icon brands style2 fa-facebook-f"><span class="label">Facebook</span></a></li>-->
+<!--									<li><a href="#" class="icon brands style2 fa-instagram"><span class="label">Instagram</span></a></li>-->
+<!--									<li><a href="#" class="icon brands style2 fa-dribbble"><span class="label">Dribbble</span></a></li>-->
+<!--									<li><a href="#" class="icon brands style2 fa-github"><span class="label">GitHub</span></a></li>-->
+<!--									<li><a href="#" class="icon brands style2 fa-500px"><span class="label">500px</span></a></li>-->
+<!--									<li><a href="#" class="icon solid style2 fa-phone"><span class="label">Phone</span></a></li>-->
+<!--									<li><a href="#" class="icon solid style2 fa-envelope"><span class="label">Email</span></a></li>-->
+<!--								</ul>-->
+<!--							</section>-->
+							<ul class="copyright">
+								<li>&copy; Untitled. All rights reserved</li><li>
+								<li><<<<----chuchen---->>>></li><li>
+<!--								<li>Design: <a href="http://html5up.net">HTML5 UP</a></li>-->
+							</ul>
+						</div>
+					</footer>
+
+			</div>
+
+		<!-- Scripts -->
+			<script src="assets/js/jquery.min.js"></script>
+			<script src="assets/js/browser.min.js"></script>
+			<script src="assets/js/breakpoints.min.js"></script>
+			<script src="assets/js/util.js"></script>
+			<script src="assets/js/main.js"></script>
+
+	</body>
+</html>

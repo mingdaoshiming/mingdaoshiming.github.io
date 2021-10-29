@@ -1,0 +1,272 @@
+<!DOCTYPE HTML>
+<!--
+	Phantom by HTML5 UP
+	html5up.net | @ajlkn
+	Free for personal and commercial use under the CCA 3.0 license (html5up.net/license)
+-->
+<html>
+	<head>
+		<title>Generic - Phantom by HTML5 UP</title>
+		<meta charset="utf-8" />
+		<meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no" />
+		<link rel="stylesheet" href="assets/css/main.css" />
+		<noscript><link rel="stylesheet" href="assets/css/noscript.css" /></noscript>
+	</head>
+	<body class="is-preload">
+		<!-- Wrapper -->
+			<div id="wrapper">
+
+				<!-- Header -->
+					<header id="header">
+						<div class="inner">
+
+							<!-- Logo -->
+								<a href="index.html" class="logo">
+									<span class="symbol"><img src="images/logo.svg" alt="" /></span><span class="title">chuchen</span>
+								</a>
+
+							<!-- Nav -->
+								<nav>
+									<ul>
+										<li><a href="#menu">菜单</a></li>
+									</ul>
+								</nav>
+
+						</div>
+					</header>
+
+				<!-- Menu -->
+				<nav id="menu">
+					<h2>菜单</h2>
+					<ul>
+						<li><a href="index.html">主页</a></li>
+						<!--							<li><a href="generic.html">Ipsum veroeros</a></li>-->
+						<!--							<li><a href="generic.html">Tempus etiam</a></li>-->
+						<!--							<li><a href="generic.html">Consequat dolor</a></li>-->
+						<!--							<li><a href="elements.html">Elements</a></li>-->
+					</ul>
+				</nav>
+
+				<!-- Main -->
+				<div id="main">
+					<div class="inner">
+						<h1>CircleLoading</h1>
+						<span class="image main"><img src="images/pic13.jpg" alt="" /></span>
+
+						<font size="4">
+							<!--							第一段-->
+							<p>
+								这里是一个简单的圆形过场动画，主要由两部分组成，一个简单的shader和控制器【我这还导入了lua，第一次感觉lua有点烦，啥时候上ILRuntime？？】
+							</p>
+
+
+							<!--							第二段-->
+							<p>
+								
+							</p>
+
+
+
+							<!--							第三段-->
+							<p>
+								
+							</p>
+						</font>
+
+
+						<h1>Code</h1>
+						<font size="4">
+						<pre>
+//--------------------------- shader 部分------------------------------------
+Shader "UI/AlphaMask"
+{
+	Properties
+	{
+		[PerRendererData]_MainTex ("Texture", 2D) = "white" {}
+		_Distance("_Distance", float) = 2
+		_PointX("_PointX", float) = 0.5
+		_PointY("_PointY", float) = 0.5
+		_SpriteAlpha("_SpriteAlpha", Range(0, 1)) = 1
+	}
+	SubShader
+	{
+		Tags { "Queue"="Transparent" "IgnoreProjector"="True" "RenderType"="Transparent" "PreviewType"="Plane" "CanUseSpriteAtlas"="True" }
+		
+		ZWrite Off Blend SrcAlpha OneMinusSrcAlpha Cull Off
+
+		Pass
+		{
+			CGPROGRAM
+			#pragma vertex vert
+			#pragma fragment frag
+
+			#include "UnityCG.cginc"
+
+			struct appdata
+			{
+				float4 vertex : POSITION;
+				float2 uv : TEXCOORD0;
+			};
+
+			struct v2f
+			{
+				float2 uv : TEXCOORD0;
+				float4 vertex : SV_POSITION;
+				float4 worldPosition : TEXCOORD1;
+			};
+			
+			sampler2D _MainTex;
+			float _Distance;
+			float _PointX;
+			float _PointY;
+			float _SpriteAlpha;
+
+			v2f vert (appdata v)
+			{
+				v2f o;
+				o.worldPosition = v.vertex;
+				o.vertex = UnityObjectToClipPos(v.vertex);
+				o.uv = v.uv;
+				return o;
+			}
+
+			fixed4 frag (v2f i) : SV_Target
+			{
+				fixed4 col = tex2D(_MainTex, i.uv);
+				col.a*=_SpriteAlpha;
+				float2 centerPoint = float2(_PointX, _PointY);
+				float dis = distance(i.worldPosition.xy, centerPoint);
+				
+				if (dis < _Distance)
+				{
+					col.a*= 0;
+				}  
+			  
+				return col;
+			}
+			ENDCG
+		}
+	}
+}
+						
+//------------------------------- 控制器代码部分 ----------------------------------------
+using DG.Tweening;
+using LuaInterface;
+using UnityEngine;
+using UnityEngine.UI;
+
+// ------------ 该控制器只适用于全屏界面背景 -----------------------------
+public class AlphaMaskCtr : MonoBehaviour
+{
+	private Image _image;
+	private float _screenRate = 1.7f;
+	private Material _material;
+	private static readonly int PointX = Shader.PropertyToID("_PointX");
+	private static readonly int PointY = Shader.PropertyToID("_PointY");
+	private static readonly int Distance = Shader.PropertyToID("_Distance");
+	private static readonly int SpriteAlpha = Shader.PropertyToID("_SpriteAlpha");
+
+	public float _circleValue = 600f;
+	public float _time = 0.8f;
+
+	[NoToLua]
+	void Start()
+	{
+		_material = GetComponent(typeof(Image)).material;
+	}
+	
+	
+	public void SetCenterPoint(Vector2 pos)
+	{
+		float xOffset = (pos.x - (float)Screen.width/2) ;
+		float yOffset = (pos.y - (float)Screen.height/2);
+		_material.SetFloat(PointX, xOffset);
+		_material.SetFloat(PointY, yOffset);
+	}
+
+	
+	public void SetCircleDistanceMax(float dis)
+	{
+		DOTween.To(delegate(float value)
+		{
+			_material.SetFloat(Distance, value);
+		}, 0, dis, _time);
+	}
+
+	
+	public void SetCircleDistanceMin(float dis)
+	{
+		DOTween.To(delegate(float value)
+		{
+			_material.SetFloat(Distance, value);
+		}, _circleValue, dis, _time);
+	}
+
+	
+	public void SetAlpha(float value)
+	{
+		_material.SetFloat(SpriteAlpha, value);
+	}
+
+}
+
+
+						</pre>
+						</font>
+					</div>
+				</div>
+
+				<!-- Footer -->
+					<footer id="footer">
+						<div class="inner">
+<!--							<section>-->
+<!--								<h2>Get in touch</h2>-->
+<!--								<form method="post" action="#">-->
+<!--									<div class="fields">-->
+<!--										<div class="field half">-->
+<!--											<input type="text" name="name" id="name" placeholder="Name" />-->
+<!--										</div>-->
+<!--										<div class="field half">-->
+<!--											<input type="email" name="email" id="email" placeholder="Email" />-->
+<!--										</div>-->
+<!--										<div class="field">-->
+<!--											<textarea name="message" id="message" placeholder="Message"></textarea>-->
+<!--										</div>-->
+<!--									</div>-->
+<!--									<ul class="actions">-->
+<!--										<li><input type="submit" value="Send" class="primary" /></li>-->
+<!--									</ul>-->
+<!--								</form>-->
+<!--							</section>-->
+<!--							<section>-->
+<!--								<h2>Follow</h2>-->
+<!--								<ul class="icons">-->
+<!--									<li><a href="#" class="icon brands style2 fa-twitter"><span class="label">Twitter</span></a></li>-->
+<!--									<li><a href="#" class="icon brands style2 fa-facebook-f"><span class="label">Facebook</span></a></li>-->
+<!--									<li><a href="#" class="icon brands style2 fa-instagram"><span class="label">Instagram</span></a></li>-->
+<!--									<li><a href="#" class="icon brands style2 fa-dribbble"><span class="label">Dribbble</span></a></li>-->
+<!--									<li><a href="#" class="icon brands style2 fa-github"><span class="label">GitHub</span></a></li>-->
+<!--									<li><a href="#" class="icon brands style2 fa-500px"><span class="label">500px</span></a></li>-->
+<!--									<li><a href="#" class="icon solid style2 fa-phone"><span class="label">Phone</span></a></li>-->
+<!--									<li><a href="#" class="icon solid style2 fa-envelope"><span class="label">Email</span></a></li>-->
+<!--								</ul>-->
+<!--							</section>-->
+							<ul class="copyright">
+								<li>&copy; Untitled. All rights reserved</li><li>
+								<li><<<<----chuchen---->>>></li><li>
+<!--								<li>Design: <a href="http://html5up.net">HTML5 UP</a></li>-->
+							</ul>
+						</div>
+					</footer>
+
+			</div>
+
+		<!-- Scripts -->
+			<script src="assets/js/jquery.min.js"></script>
+			<script src="assets/js/browser.min.js"></script>
+			<script src="assets/js/breakpoints.min.js"></script>
+			<script src="assets/js/util.js"></script>
+			<script src="assets/js/main.js"></script>
+
+	</body>
+</html>
